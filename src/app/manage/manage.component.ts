@@ -60,6 +60,7 @@ export class ManageComponent implements OnInit {
   onReset() {
     this.submitted = false;
     this.empDataForm.reset();
+    this.display = false;
   }
 
   showModalDialog(){
