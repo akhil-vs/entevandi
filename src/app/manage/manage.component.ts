@@ -51,10 +51,6 @@ export class ManageComponent implements OnInit {
     if (this.empDataForm.invalid) {
       return;
     }
-
-    // display form values on success
-      // this.dbService.userData(this.empDataForm.value);
-      // location.reload();
   }
 
   onReset() {
