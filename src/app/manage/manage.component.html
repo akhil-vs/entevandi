@@ -1,0 +1,13 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <h4 style="display: inline-block;">Manage Employees</h4>
+    <span style="float: right;"><p-button (click)="showModalDialog()" label="Add Employee" icon="pi pi-user-plus" iconPos="left"></p-button></span>
+  </div>
+  Manage Employees Works !
+</div>
+
+<p-dialog header="Add Employee" [(visible)]="display" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="1"
+  [draggable]="false" [resizable]="false">
+
+</p-dialog>
+

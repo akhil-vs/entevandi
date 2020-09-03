@@ -1,0 +1,94 @@
+<p-tabView>
+  <p-tabPanel header="Recent" leftIcon="pi pi-bell" [selected]="true">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12 my-1" *ngFor="let detail of recent, let i = index">
+          <div class="card">
+            <div class="card-header" id="test">
+              <h5>{{detail.lastName}}</h5> <h6>{{detail.firstName}}</h6>
+              <hr>
+              <h4>{{detail.vehicle}}<br/>{{detail.jobMode}}</h4>
+            </div>
+            <div class="card-footer" id="test">
+              <p-button (click)="showModalDialog(detail.uId)" label="View"></p-button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="In Progress" leftIcon="pi pi-spinner">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12 my-1" *ngFor="let detail of inProgress, let i = index">
+          <div class="card">
+            <div class="card-header" id="test">
+              <h5>{{detail.lastName}}</h5> <h6>{{detail.firstName}}</h6>
+              <hr>
+              <h4>{{detail.vehicle}}<br/>{{detail.jobMode}}</h4>
+            </div>
+            <div class="card-footer" id="test">
+              <p-button (click)="showModalDialog(detail.uId)" label="View"></p-button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Completed" leftIcon="pi pi-check-circle">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12 my-1" *ngFor="let detail of completed, let i = index">
+          <div class="card">
+            <div class="card-header" id="test">
+              <h5>{{detail.lastName}}</h5> <h6>{{detail.firstName}}</h6>
+              <hr>
+              <h4>{{detail.vehicle}}<br/>{{detail.jobMode}}</h4>
+            </div>
+            <div class="card-footer" id="test">
+              <p-button (click)="showModalDialog(detail.uId)" label="View"></p-button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </p-tabPanel>
+</p-tabView>
+
+<p-dialog header="Details" [(visible)]="display" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="1"
+  [draggable]="false" [resizable]="false">
+  <p-accordion>
+    <p-accordionTab header="Job Details" [selected]="true" id="accord">
+      <p style="text-align: center;">Date and Time of order: <strong>{{selectedUserData.date}} {{selectedUserData.time}}</strong></p>
+      <div style="text-align: center;">Vehicle Type: <strong>{{selectedUserData.vehicle}}</strong>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Job Type: <strong>{{selectedUserData.jobMode}}</strong>
+        <span class="p-tag p-tag-success" *ngIf="selectedUserData.pickAndDrop" style="margin-left: 5px;">
+          Pick and Drop
+        </span>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Customer Details">
+      <div style="width: 100%; border: 1px solid rgb(230, 231, 231); border-radius: 5px; padding: 5px; margin-bottom: 2px;">
+        <i class="pi pi-id-card"></i>&nbsp;&nbsp;<strong>{{selectedUserData.firstName}} {{selectedUserData.lastName}}</strong><br/>
+        <i class="pi pi-home"></i>&nbsp;&nbsp;<strong>{{selectedUserData.address1}} {{selectedUserData.address2}}</strong><br/>
+        <div class="row">
+          <div class="col-4"><i class="pi pi-mobile"></i>&nbsp;&nbsp;<strong>{{selectedUserData.mobile}}</strong></div>
+          <div class="col"><i class="pi pi-envelope"></i>&nbsp;&nbsp;<strong>{{selectedUserData.email}}</strong></div>
+        </div>
+      </div>
+      <div style="width: 100%; border: 1px solid rgb(230, 231, 231); border-radius: 5px; padding: 5px;">
+        <div class="row">
+          <div class="col">Seen by Admin: <strong>{{selectedUserData.isViewed}}</strong></div>
+          <div class="col">Payment Mode: <strong>{{selectedUserData.payMode}}</strong></div>
+        </div>
+        <div class="row">
+          <div class="col">Assigned to Employee: <strong>{{selectedUserData.isAssigned}}</strong></div>
+          <div class="col">Amount paid: <strong>{{selectedUserData.amount}}</strong></div>
+        </div>
+      </div>
+    </p-accordionTab>
+    <br/>
+    <div style="float: right">
+      <!-- <p-button icon="pi pi-user-plus" (click)="op1.toggle($event)" label="Assign Employee" class="p-button-text"></p-button> -->
+      <button type="button" pButton icon="pi pi-user-plus" label="Assign Employee" (click)="menu.toggle($event)"></button>
+      &nbsp;
+      <p-button icon="pi pi-check" (click)="display=false" label="Mark Complete"></p-button>
+    </div>
+  </p-accordion>
+</p-dialog>
+
+<p-menu #menu [popup]="true" [model]="employees"></p-menu>

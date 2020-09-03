@@ -1,0 +1,50 @@
+﻿<div class="col-md-6 offset-md-3 mt-5">
+    <!-- <div class="alert alert-info">
+        <strong>Normal User</strong> - U: user P: user<br />
+        <strong>Administrator</strong> - U: admin P: admin
+    </div> -->
+    <div class="card">
+        <h2 class="card-header text-center">Ente Vandi<h6>Online Vehicle Service Scheduler</h6></h2>
+        <p-tabView>
+          <p-tabPanel header="Sign In">
+            <div class="card-body">
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                      <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                          <div *ngIf="f.username.errors.required">Username is required</div>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                          <div *ngIf="f.password.errors.required">Password is required</div>
+                      </div>
+                  </div>
+                  <div class="py-2">
+                    <a href="#">
+                      <span *ngIf="loadingForgotPwd" class="spinner-border spinner-border-sm mr-1"></span>
+                      Forgot Password
+                    </a>
+                  </div>
+                    <button [disabled]="loadingLogin" class="btn btn-primary float-sm-center">
+                        <span *ngIf="loadingLogin" class="spinner-border spinner-border-sm mr-1"></span>
+                        Login
+                    </button>
+                    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+
+              </form>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Sign Up">
+              Create an Account
+          </p-tabPanel>
+          <p-tabPanel header="Guest">
+              Continue without Account
+              <!-- <p-captcha siteKey="" (onResponse)="showResponse($event)"></p-captcha> -->
+          </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

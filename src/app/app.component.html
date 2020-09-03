@@ -1,0 +1,23 @@
+﻿<!-- nav -->
+<nav class="navbar navbar-expand-md text-white bg-primary" *ngIf="user">
+  <a class="navbar-brand text-white" href="#"><strong>Ente Vandi</strong></a>
+  <div class="navbar-nav float-right">
+      <a class="nav-item nav-link text-white" routerLink="/">Home</a>
+      <a class="nav-item nav-link text-white" routerLink="/admin" *ngIf="isAdmin">Admin</a>
+      <a class="nav-item nav-link text-white" routerLink="/manage" *ngIf="isAdmin">Employees</a>
+      <a class="nav-item nav-link text-white" (click)="logout()">Logout</a>
+  </div>
+</nav>
+
+<!-- main app container -->
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+
+<!-- credits -->
+<div class="text-center sticky-bottom">
+    <!-- <p>
+        <a href="https://jasonwatmore.com/post/2020/05/15/angular-9-role-based-authorization-tutorial-with-example" target="_top">Angular 9 - Role Based Authorization Tutorial with Example</a>
+    </p> -->
+    <p>&copy; MADreams</p>
+</div>
