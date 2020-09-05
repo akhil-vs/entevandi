@@ -15,5 +15,14 @@ export class DbService {
   getData(){
     return this.http.get("http://localhost:3000/get");
   }
-
+  empCount(){
+    return this.http.get("http://localhost:3000/empcount");
+  }
+  getAllEmps() {
+    return this.http.get("http://localhost:3000/getallemps");
+  }
+  addEmployee(employee){
+    return this.http.post("http://localhost:3000/addemp", employee)
+    .subscribe(data=>console.log());
+  }
 }

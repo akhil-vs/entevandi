@@ -4,11 +4,12 @@ mongoose.connect('mongodb://localhost:27017/UserDB');
 const Schema = mongoose.Schema;
 
 var empSchema = new Schema({
-  empId: String,
+  empId: Number,
   firstName: String,
   lastName: String,
   mobile: Number,
-  address: String,
+  address1: String,
+  address2: String,
   email: String,
   vehMode: String,
   userName: String,

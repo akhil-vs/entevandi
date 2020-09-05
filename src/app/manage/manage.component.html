@@ -3,28 +3,80 @@
     <h4 style="display: inline-block;">Manage Employees</h4>
     <span style="float: right;"><p-button (click)="showModalDialog()" label="Add Employee" icon="pi pi-user-plus" iconPos="left"></p-button></span>
   </div>
-  Manage Employees Works !
+</div>
+
+<div class="card">
+  <p-dataView #dv [value]="empData" [paginator]="true" [rows]="9" filterBy="firstName">
+      <ng-template pTemplate="header">
+          <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+              <!-- <span class="p-input-icon-left p-mb-2 p-mb-md-0"> -->
+                  <!-- <i class="pi pi-search"></i> -->
+                  <input type="search" pInputText placeholder="Search by First Name" (input)="dv.filter($event.target.value)">
+              <!-- </span> -->
+              <!-- <p-dataViewLayoutOptions></p-dataViewLayoutOptions> -->
+          </div>
+      </ng-template>
+      <ng-template let-emp pTemplate="listItem">
+        <div class="listCard m-2">
+          <div class="row mx-0">
+            <div class="p-2 col-1">
+              <img src="../../assets/images/user.png" class="w-50">
+            </div>
+            <div class="p-2 col-4">
+              <h5>{{emp.firstName}} {{emp.lastName}}</h5>
+            </div>
+            <div class="p-2 col-1">{{emp.vehMode}}</div>
+            <div class="p-2 col-2">{{emp.mobile}}</div>
+            <div class="p-2 col-4">
+              <button class="btn btn-primary mx-1"><i class="fa fa-pencil"></i></button>
+              <button class="btn btn-secondary mx-1"><i class="fa fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+    </ng-template>
+      <!-- <ng-template let-emp pTemplate="gridItem">
+        <div class="p-col-12 p-md-4" style="width: 33.33%;">
+          <div class="product-grid-item card">
+            <div class="product-grid-item-top">
+              <img src="../../assets/images/user.png" class="w-50">
+            </div>
+            <div class="product-grid-item-content">
+              <h5>{{emp.firstName}} {{emp.lastName}}</h5>
+              <div >{{emp.vehMode}}</div>
+              <div>{{emp.mobile}}</div>
+            </div>
+            <div class="product-grid-item-bottom">
+              <button class="btn btn-primary mx-1"><i class="fa fa-pencil"></i></button>
+              <button class="btn btn-secondary mx-1"><i class="fa fa-trash"></i></button>
+            </div>
+          </div>
+      </div>
+    </ng-template> -->
+  </p-dataView>
 </div>
 
 <p-dialog header="Add Employee" [(visible)]="display" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="1"
   [draggable]="false" [resizable]="false">
-  <p-fieldset legend="Vehicle Details">
+  <p-fieldset legend="Fill the details below">
     <div class="row mx-0">
       <div class="col-md-6 col-sm-12 p-2">
-        <!-- <span>Vehicle Type: </span><p-dropdown [options]="vehTypes" [(ngModel)]="selectedVeh" optionLabel="name"></p-dropdown> -->
           <span>Vehicle Type: </span>
-          <p-selectButton [options]="vehTypes" [(ngModel)]="selectedVeh" optionLabel="name">
-            <ng-template let-item>
-                <div>
-                  <i style="margin-right: 10px" class={{item.value.icon}}></i>
-                  <span>{{item.value.name}}</span>
-                </div>
-            </ng-template>
-          </p-selectButton>
+          <form [formGroup]="empDataForm" (ngSubmit)="onSubmit()">
+            <p-selectButton [options]="vehTypes" [(ngModel)]="selectedVeh" optionLabel="name"
+            formControlName="vehMode" [ngClass]="{ 'is-invalid': submitted && f.vehMode.errors }">
+              <ng-template let-item>
+                  <div>
+                    <i style="margin-right: 10px" class={{item.value.icon}}></i>
+                    <span>{{item.value.name}}</span>
+                  </div>
+              </ng-template>
+            </p-selectButton>
+            <div *ngIf="submitted && f.vehMode.errors" class="invalid-feedback">
+              <div *ngIf="f.vehMode.errors.required">Vehicle Type is required</div>
+          </div>
+          </form>
       </div>
     </div>
-  </p-fieldset>
-  <p-fieldset legend="Customer Details">
     <div class="row mx-0">
       <div class="col-sm-12 p-2">
         <form [formGroup]="empDataForm" (ngSubmit)="onSubmit()">
@@ -37,47 +89,43 @@
                   </div>
               </div>
               <div class="form-group col-4">
-                  <label>Last Name</label>
-                  <input type="text" formControlName="lastName" class="form-control"/>
-                  <!-- <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <label>Last Name *</label>
+                  <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
+                  <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
                       <div *ngIf="f.lastName.errors.required">Last Name is required</div>
-                  </div> -->
+                  </div>
               </div>
               <div class="form-group col">
                 <label>Mobile *</label>
-                <input type="number" formControlName="mobile" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
+                <input type="number" formControlName="mobile" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" maxlength="10" minlength="10" />
                 <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
                     <div *ngIf="f.mobile.errors.required">Mobile no. is required</div>
-                    <div *ngIf="f.mobile.errors.minlength">Mobile no must contain 10 digits</div>
+                    <div *ngIf="f.mobile.errors.pattern">Mobile no must contain 10 digits</div>
                 </div>
               </div>
           </div>
           <div class="form-row">
             <div class="form-group col-4">
-              <label>Address *</label>
+              <label>Address Line 1*</label>
               <input type="text" formControlName="address1" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address1.errors }" />
               <div *ngIf="submitted && f.address1.errors" class="invalid-feedback">
                   <div *ngIf="f.address1.errors.required">Address is required</div>
               </div>
             </div>
             <div class="form-group col-4">
-              <label>Address </label>
+              <label>Address Line 2</label>
               <input type="text" formControlName="address2" class="form-control" />
             </div>
             <div class="form-group col-4">
-              <label>Email</label>
-              <input type="text" formControlName="email" class="form-control" />
-              <!-- <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <label>Email *</label>
+              <input type="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                   <div *ngIf="f.email.errors.required">Email is required</div>
                   <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
-              </div> -->
+              </div>
             </div>
           </div>
-          <div class="form-group form-check">
-              <input type="checkbox" formControlName="pickAndDrop" id="pickAndDrop" class="form-check-input" />
-              <label for="pickAndDrop" class="form-check-label">Pick and Drop</label>
-          <!-- </div>
-          <div> -->
+          <div>
               <button style="float: right" class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
               <button style="float: right" class="btn btn-primary mr-1" type="submit">Submit</button>
           </div>

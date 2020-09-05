@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DbService } from '../_services/db.service';
 
-import { MustMatch } from '../_helpers/must-match.validator';
-
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.less']
+  styleUrls: ['./manage.component.css']
 })
 export class ManageComponent implements OnInit {
 
@@ -15,8 +13,10 @@ export class ManageComponent implements OnInit {
   submitted = false;
   display: boolean = false;
   vehTypes: any[];
-
-  selectedVeh: any;
+  empCount;
+  selectedVeh: any = '';
+  selected: boolean;
+  empData: any;
 
   constructor(private formBuilder: FormBuilder, public dbService: DbService) {
     this.vehTypes = [
@@ -27,36 +27,57 @@ export class ManageComponent implements OnInit {
 
   ngOnInit(): void {
     this.empDataForm = this.formBuilder.group({
-      empId: ['', Validators.required],
+      empId: [''],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      mobile: ['', Validators.required],
+      mobile: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       address1: ['', Validators.required],
       address2: [''],
+      vehMode: ['',Validators.required],
       email: ['', Validators.required],
-      userName: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      cnfPassword: ['', [Validators.required, Validators.minLength(8)]]
-    }, {
-      validator: MustMatch('password', 'cnfPassword')
-    });
+      userName: [''],
+      password: ['']
+    })
+    this.dbService.empCount().subscribe(data=>{
+      this.empCount = data;
+    })
+    this.dbService.getAllEmps().subscribe(
+      data => {
+        this.empData = data;
+      }
+    );
   }
 
   get f() { return this.empDataForm.controls; }
 
   onSubmit() {
+    if(this.selectedVeh != '' ) {
+      this.selected = true;
+      this.empDataForm.value['vehMode'] = this.selectedVeh.code;
+    }
+    else {
+      this.selected = false;
+    }
+    if(this.empCount > 0){
+      this.empDataForm.value['empId'] = 1500+this.empCount;
+    } else {
+      this.empDataForm.value['empId'] = 1500;
+    }
+    this.empDataForm.value['userName'] = this.empDataForm.value['lastName']+this.empDataForm.value['empId'];
+    this.empDataForm.value['password'] = this.empDataForm.value['userName'];
     this.submitted = true;
-
     // stop here if form is invalid
-    if (this.empDataForm.invalid) {
+    if (!this.empDataForm.valid) {
       return;
     }
+    this.dbService.addEmployee(this.empDataForm.value);
   }
 
   onReset() {
     this.submitted = false;
     this.empDataForm.reset();
     this.display = false;
+    this.selectedVeh = '';
   }
 
   showModalDialog(){

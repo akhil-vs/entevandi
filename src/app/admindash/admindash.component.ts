@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵgetComponentViewDefinitionFactory } from '@angular/core';
 import { DbService } from '../_services/db.service';
 import { MenuItem } from 'primeng/api';
 
@@ -35,7 +35,8 @@ export class AdmindashComponent implements OnInit {
   recent: Array<any> = [];
   inProgress: Array<any> = [];
   completed: Array<any> = [];
-  employees: MenuItem[];
+  employees: any = [];
+  empFiltered: any = [];
 
   tabs = ["Recent", "In Progress", "Completed"];
   selectedUserData: EntryData = {
@@ -106,30 +107,56 @@ export class AdmindashComponent implements OnInit {
         }
       }
     })
-    this.employees = [{
-      label: 'Employees',
-      items: [
-          {label: 'Chandler', icon: 'pi pi-fw pi-tag', command: (event)=>{
-            console.log(event.originalEvent.type);
-          }},
-          {label: 'Joey', icon: 'pi pi-fw pi-tag'},
-          {label: 'Ross', icon: 'pi pi-fw pi-tag'},
-          {label: 'Monica', icon: 'pi pi-fw pi-tag'},
-          {label: 'Pheobe', icon: 'pi pi-fw pi-tag'},
-          {label: 'Rachel', icon: 'pi pi-fw pi-tag'}
-      ]
-    }];
+    this.dbService.getAllEmps().subscribe(
+      data => {
+        this.employees = data;
+      }
+    );
+    // this.employees = [{
+    //   label: 'Employees',
+    //   items: [
+    //       {label: 'Chandler', icon: 'pi pi-fw pi-tag', command: (event)=>{
+    //         console.log(event.originalEvent.type);
+    //       }},
+    //       {label: 'Joey', icon: 'pi pi-fw pi-user'},
+    //       {label: 'Ross', icon: 'pi pi-fw pi-tag'},
+    //       {label: 'Monica', icon: 'pi pi-fw pi-tag'},
+    //       {label: 'Pheobe', icon: 'pi pi-fw pi-tag'},
+    //       {label: 'Rachel', icon: 'pi pi-fw pi-tag'}
+    //   ]
+    // }];
   }
 
   showModalDialog(entryid: string){
+    this.empFiltered = [{
+      label: 'Employees',
+      items: []
+    }];
     this.display = true;
+    let vehMode = '';
     for(let item of this.details) {
       if(item.uId == entryid) {
         this.selectedUserData = item;
+        vehMode = item.vehicle;
         break;
       }
     }
+    let vehType = [
+      {vehCode: '2w', vehType:'Two Wheeler'},
+      {vehCode: '4w', vehType:'Four Wheeler'}
+    ];
+    for(let veh of vehType) {
+      if(vehMode == veh.vehType) {
+        vehMode = veh.vehCode;
+      }
+    }
+    for(let emp of this.employees) {
+      if(vehMode == emp.vehMode) {
+        this.empFiltered[0].items.push(
+          {label: emp.firstName, icon: 'pi pi-fw pi-user' }
+        );
+        }
+    }
   }
-
 
 }

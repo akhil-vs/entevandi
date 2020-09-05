@@ -63,11 +63,11 @@
     </p-accordionTab>
     <p-accordionTab header="Customer Details">
       <div style="width: 100%; border: 1px solid rgb(230, 231, 231); border-radius: 5px; padding: 5px; margin-bottom: 2px;">
-        <i class="pi pi-id-card"></i>&nbsp;&nbsp;<strong>{{selectedUserData.firstName}} {{selectedUserData.lastName}}</strong><br/>
-        <i class="pi pi-home"></i>&nbsp;&nbsp;<strong>{{selectedUserData.address1}} {{selectedUserData.address2}}</strong><br/>
+        <i class="pi pi-id-card mr-1"></i><strong>{{selectedUserData.firstName}} {{selectedUserData.lastName}}</strong><br/>
+        <i class="pi pi-home mr-1"></i><strong>{{selectedUserData.address1}} {{selectedUserData.address2}}</strong><br/>
         <div class="row">
-          <div class="col-4"><i class="pi pi-mobile"></i>&nbsp;&nbsp;<strong>{{selectedUserData.mobile}}</strong></div>
-          <div class="col"><i class="pi pi-envelope"></i>&nbsp;&nbsp;<strong>{{selectedUserData.email}}</strong></div>
+          <div class="col-4"><i class="pi pi-mobile mr-1"></i><strong>{{selectedUserData.mobile}}</strong></div>
+          <div class="col"><i class="pi pi-envelope mr-1"></i><strong>{{selectedUserData.email}}</strong></div>
         </div>
       </div>
       <div style="width: 100%; border: 1px solid rgb(230, 231, 231); border-radius: 5px; padding: 5px;">
@@ -91,4 +91,4 @@
   </p-accordion>
 </p-dialog>
 
-<p-menu #menu [popup]="true" [model]="employees"></p-menu>
+<p-menu #menu [popup]="true" [model]="empFiltered"></p-menu>

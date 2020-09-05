@@ -23,6 +23,9 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { AccordionModule } from 'primeng/accordion';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuModule } from 'primeng/menu';
+import { ToastModule } from 'primeng/toast';
+import { DataViewModule } from 'primeng/dataview';
+
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
 import { AdminComponent } from './admin';
@@ -30,7 +33,7 @@ import { LoginComponent } from './login';
 import { UserdashComponent } from './userdash/userdash.component';
 import { AdmindashComponent } from './admindash/admindash.component';;
 import { EmpdashComponent } from './empdash/empdash.component';
-import { ManageComponent } from './manage/manage.component';;
+import { ManageComponent } from './manage/manage.component';
 
 @NgModule({
     imports: [
@@ -42,6 +45,7 @@ import { ManageComponent } from './manage/manage.component';;
         DialogModule,
         ButtonModule,
         MenuModule,
+        ToastModule,
         SplitButtonModule,
         AccordionModule,
         PanelMenuModule,
@@ -52,7 +56,8 @@ import { ManageComponent } from './manage/manage.component';;
         CaptchaModule,
         FieldsetModule,
         SelectButtonModule,
-        InputNumberModule
+        InputNumberModule,
+        DataViewModule
     ],
     declarations: [
         AppComponent,
