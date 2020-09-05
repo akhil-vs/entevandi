@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DbService } from '../_services/db.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.css']
+  styleUrls: ['./manage.component.less'],
+  providers: [MessageService]
 })
 export class ManageComponent implements OnInit {
 
@@ -18,7 +20,9 @@ export class ManageComponent implements OnInit {
   selected: boolean;
   empData: any;
 
-  constructor(private formBuilder: FormBuilder, public dbService: DbService) {
+  constructor(private formBuilder: FormBuilder,
+    public dbService: DbService,
+    private messageService: MessageService) {
     this.vehTypes = [
       {name: '2 Wheeler', code: '2w', icon: 'fa fa-motorcycle'},
       {name: '4 Wheeler', code: '4w', icon: 'fa fa-car'}
@@ -70,7 +74,10 @@ export class ManageComponent implements OnInit {
     if (!this.empDataForm.valid) {
       return;
     }
-    this.dbService.addEmployee(this.empDataForm.value);
+    console.log(this.empDataForm.value);
+    // this.dbService.addEmployee(this.empDataForm.value);
+    this.messageService.add({severity:'success', summary: 'Success', detail: 'Employee added successfully'});
+
   }
 
   onReset() {
@@ -78,6 +85,10 @@ export class ManageComponent implements OnInit {
     this.empDataForm.reset();
     this.display = false;
     this.selectedVeh = '';
+  }
+
+  onReject() {
+      this.messageService.clear();
   }
 
   showModalDialog(){
