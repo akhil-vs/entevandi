@@ -54,6 +54,12 @@ export class ManageComponent implements OnInit {
 
   get f() { return this.empDataForm.controls; }
 
+  timeOut(){
+    setTimeout(()=>{
+      window.location.reload();
+    },900);
+  }
+
   onSubmit() {
     if(this.selectedVeh != '' ) {
       this.selected = true;
@@ -75,8 +81,9 @@ export class ManageComponent implements OnInit {
       return;
     }
     console.log(this.empDataForm.value);
-    // this.dbService.addEmployee(this.empDataForm.value);
+    this.dbService.addEmployee(this.empDataForm.value);
     this.messageService.add({severity:'success', summary: 'Success', detail: 'Employee added successfully'});
+    this.timeOut();
 
   }
 
