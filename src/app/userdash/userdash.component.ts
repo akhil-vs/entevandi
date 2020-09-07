@@ -6,7 +6,7 @@ import * as uuid from 'uuid';
 @Component({
   selector: 'app-userdash',
   templateUrl: './userdash.component.html',
-  styleUrls: ['./userdash.component.less']
+  styleUrls: ['./userdash.component.css']
 })
 export class UserdashComponent implements OnInit {
   test = (uuid.v4().split('-'));

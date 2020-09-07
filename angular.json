@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "less"
+          "style": "css"
         }
       },
       "root": "",
@@ -29,11 +29,12 @@
             ],
             "styles": [
               "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/saga-blue/theme.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.css",
-              "src/styles.less"
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -97,7 +98,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.css"
             ],
             "scripts": []
           }
@@ -133,5 +134,10 @@
   "defaultProject": "angular-9-role-based-authorization-example",
   "cli": {
     "analytics": false
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "css"
+    }
   }
 }

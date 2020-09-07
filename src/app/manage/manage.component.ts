@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.less'],
+  styleUrls: ['./manage.component.css'],
   providers: [MessageService]
 })
 export class ManageComponent implements OnInit {
@@ -48,18 +48,21 @@ export class ManageComponent implements OnInit {
     this.dbService.getAllEmps().subscribe(
       data => {
         this.empData = data;
+        console.log(this.empData)
       }
     );
   }
 
   get f() { return this.empDataForm.controls; }
 
+  //Setting timeout after adding an employee//
   timeOut(){
     setTimeout(()=>{
       window.location.reload();
     },900);
   }
 
+  //Adding employees//
   onSubmit() {
     if(this.selectedVeh != '' ) {
       this.selected = true;
@@ -84,9 +87,20 @@ export class ManageComponent implements OnInit {
     this.dbService.addEmployee(this.empDataForm.value);
     this.messageService.add({severity:'success', summary: 'Success', detail: 'Employee added successfully'});
     this.timeOut();
-
   }
 
+  //Edit employees//
+  editEmp(empId) {
+    console.log(empId);
+  }
+
+  //Delete employees//
+  deleteEmp(empId) {
+    // this.dbService.deleteEmp(empId);   //Add dialog box
+    this.timeOut();
+  }
+
+  //Reseting the form//
   onReset() {
     this.submitted = false;
     this.empDataForm.reset();
@@ -94,10 +108,12 @@ export class ManageComponent implements OnInit {
     this.selectedVeh = '';
   }
 
+  //Closing the toast//
   onReject() {
       this.messageService.clear();
   }
 
+  //Showing 'add employee' dialogbox//
   showModalDialog(){
     this.display = true;
   }

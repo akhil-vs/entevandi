@@ -89,6 +89,20 @@ app.post("/addemp", (req,res) => {
   empData.save();
 })
 
+//----------DELETE-EMPLOYEE----------//
+app.delete("/deleteemp/:id", (req,res) => {
+  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH");
+  var id = req.params.id;
+  EmployeeData.findOne({"empId":id}, (err, foundObj) => {
+    var dbId = foundObj._id;
+    EmployeeData.findByIdAndDelete({"_id":dbId}, (err, foundObject) => {
+      if(err) console.log(err);
+    })
+    if(err) console.log(err);
+  })
+})
+
 //----------PORT-INITIALIZATION----------//
 app.listen(3000, function(){
   console.log("Listening to port 3000")

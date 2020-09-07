@@ -27,7 +27,7 @@ interface EntryData {
 @Component({
   selector: 'app-admindash',
   templateUrl: './admindash.component.html',
-  styleUrls: ['./admindash.component.less']
+  styleUrls: ['./admindash.component.css']
 })
 export class AdmindashComponent implements OnInit {
   details = [];
