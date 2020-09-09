@@ -26,6 +26,8 @@ import { MenuModule } from 'primeng/menu';
 import { ToastModule } from 'primeng/toast';
 import { DataViewModule } from 'primeng/dataview';
 import { PanelModule } from 'primeng/panel';
+import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
@@ -48,8 +50,10 @@ import { ManageComponent } from './manage/manage.component';
         MenuModule,
         ToastModule,
         SplitButtonModule,
+        ConfirmDialogModule,
         AccordionModule,
         PanelMenuModule,
+        TooltipModule,
         HttpClientModule,
         AppRoutingModule,
         DropdownModule,

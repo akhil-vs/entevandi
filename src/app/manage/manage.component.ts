@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DbService } from '../_services/db.service';
 import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class ManageComponent implements OnInit {
 
@@ -19,13 +20,15 @@ export class ManageComponent implements OnInit {
   selectedVeh: any = '';
   selected: boolean;
   empData: any;
+  // len;
 
   constructor(private formBuilder: FormBuilder,
     public dbService: DbService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) {
     this.vehTypes = [
-      {name: '2 Wheeler', code: '2w', icon: 'fa fa-motorcycle'},
-      {name: '4 Wheeler', code: '4w', icon: 'fa fa-car'}
+      {name: 'Two Wheeler', code: '2w', icon: 'fa fa-motorcycle'},
+      {name: 'Four Wheeler', code: '4w', icon: 'fa fa-car'}
     ];
   }
 
@@ -48,12 +51,21 @@ export class ManageComponent implements OnInit {
     this.dbService.getAllEmps().subscribe(
       data => {
         this.empData = data;
-        console.log(this.empData)
+        let len = this.empData.length;
+        for(let i=0; i<len; i++){
+          if(this.empData[i].vehMode == '4w'){
+            this.empData[i].vehMode = 'Four Wheeler';
+          } else if(this.empData[i].vehMode == '2w'){
+            this.empData[i].vehMode = 'Two Wheeler';
+          }
+        }
       }
     );
   }
 
   get f() { return this.empDataForm.controls; }
+
+
 
   //Setting timeout after adding an employee//
   timeOut(){
@@ -77,14 +89,18 @@ export class ManageComponent implements OnInit {
       this.empDataForm.value['empId'] = 1500;
     }
     this.empDataForm.value['userName'] = this.empDataForm.value['lastName']+this.empDataForm.value['empId'];
+    let reUserName = this.empDataForm.value['userName'].replace(/\s/g,"")
+    this.empDataForm.value['userName'] = reUserName;
     this.empDataForm.value['password'] = this.empDataForm.value['userName'];
     this.submitted = true;
     // stop here if form is invalid
     if (!this.empDataForm.valid) {
       return;
     }
-    console.log(this.empDataForm.value);
     this.dbService.addEmployee(this.empDataForm.value);
+    setTimeout(()=>{
+      this.display = false;
+    },300);
     this.messageService.add({severity:'success', summary: 'Success', detail: 'Employee added successfully'});
     this.timeOut();
   }
@@ -95,9 +111,18 @@ export class ManageComponent implements OnInit {
   }
 
   //Delete employees//
-  deleteEmp(empId) {
-    // this.dbService.deleteEmp(empId);   //Add dialog box
-    this.timeOut();
+  confirmDelete(empId) {
+    this.confirmationService.confirm({
+        message: 'Are you sure you want to delete this employee?',
+        header: 'Delete confirmation',
+        accept: () => {
+            //Actual logic to perform a confirmation
+            console.log(empId);
+            this.dbService.deleteEmp(empId);
+            this.messageService.add({severity:'error', summary: 'Deleted', detail: 'Employee deleted successfully'});
+            this.timeOut();
+        }
+    });
   }
 
   //Reseting the form//
