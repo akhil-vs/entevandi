@@ -2,7 +2,7 @@
   <div class="card-header">
     <h4 style="display: inline-block;">Manage Employees</h4>
     <span style="float: right;">
-      <button pButton (click)="showModalDialog()" type="button" label="Add Employee" class="p-button-help">
+      <button pButton (click)="showModalDialog('add')" type="button" label="Add Employee" class="p-button-help">
         <i class="fa fa-user-plus mr-2"></i>
       </button>
     </span>
@@ -75,7 +75,7 @@
 
                                                     <!-- Add Employee -->
 
-<p-dialog header="Add Employee" [(visible)]="display" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="1"
+<p-dialog header="Employee Info" [(visible)]="display" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="1"
   [draggable]="false" [resizable]="false">
   <p-fieldset legend="Fill the details below">
     <div class="row mx-0">

@@ -30,8 +30,14 @@ export class DbService {
 
   //Add employee//
   addEmployee(employee){
-    return this.http.post("http://localhost:3000/addemp", employee)
-    .subscribe(data=>console.log());
+    return this.http.post("http://localhost:3000/addemp", employee);
+    // .subscribe(data=>console.log());
+  }
+
+  //Edit employee//
+  editEmployee(empWithId){
+    return this.http.post("http://localhost:3000/editemp", empWithId)
+    // .subscribe(data=>{console.log(data)});
   }
 
   //Delete employee//

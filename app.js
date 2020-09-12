@@ -89,6 +89,30 @@ app.post("/addemp", (req,res) => {
   empData.save();
 })
 
+//----------EDIT-EMPLOYEE----------//
+app.post("/editemp", (req, res) => {
+  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH");
+  var id = req.body.id;
+  console.log(req.body);
+  EmployeeData.findOne({"empId": id}, (err, foundObj) => {
+    console.log(foundObj);
+    if(err){
+      console.log(err);
+    } else {
+      foundObj.firstName = req.body.detail.firstName;
+      foundObj.lastName = req.body.detail.lastName;
+      foundObj.mobile = req.body.detail.mobile;
+      foundObj.address1 = req.body.detail.address1;
+      foundObj.address2 = req.body.detail.address2;
+      foundObj.vehMode = req.body.detail.vehMode;
+      foundObj.email = req.body.detail.email;
+      foundObj.save();
+      console.log(foundObj);
+    }
+  })
+})
+
 //----------DELETE-EMPLOYEE----------//
 app.delete("/deleteemp/:id", (req,res) => {
   res.header("Access-Control-Allow-Origin","*");

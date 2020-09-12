@@ -1,12 +1,15 @@
 <p-tabView>
   <p-tabPanel header="Recent" leftIcon="pi pi-bell" [selected]="true">
     <div class="row">
-      <div class="col-lg-4 col-md-6 col-sm-12 my-1" *ngFor="let detail of recent, let i = index">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 my-1" *ngFor="let detail of recent, let i = index">
           <div class="card">
             <div class="card-header" id="test">
-              <h5>{{detail.lastName}}</h5> <h6>{{detail.firstName}}</h6>
+              <h5>{{detail.firstName}}</h5> <h6>{{detail.lastName}}</h6>
               <hr>
-              <h4>{{detail.vehicle}}<br/>{{detail.jobMode}}</h4>
+              <!-- <h4>{{detail.vehicle}}</h4> -->
+              <i *ngIf="detail.vehicle == 'Two Wheeler'" class="fa fa-motorcycle fa-2x" title="Motorcycle" aria-hidden="true"></i>
+              <i *ngIf="detail.vehicle == 'Four Wheeler'" class="fa fa-car fa-2x" title="Car" aria-hidden="true"></i>
+              <h5>{{detail.jobMode}}</h5>
             </div>
             <div class="card-footer" id="test">
               <p-button (click)="showModalDialog(detail.uId)" label="View"></p-button>
