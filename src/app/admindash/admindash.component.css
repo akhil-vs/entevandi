@@ -5,3 +5,10 @@
 .p-overlayPanel{
   z-index: 12000;
 }
+.card:hover .card-header, .card:hover .card-footer{
+  /* background-color: #80adff !important; */
+  color: #80adff;
+}
+.card:hover {
+  box-shadow: 1px 1px 10px 0px #80adff;
+}

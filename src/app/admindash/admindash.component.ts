@@ -1,7 +1,6 @@
 import { Component, OnInit, ɵgetComponentViewDefinitionFactory } from '@angular/core';
 import { DbService } from '../_services/db.service';
-import { MenuItem } from 'primeng/api';
-
+import { MessageService } from 'primeng/api';
 
 interface EntryData {
   uId: String;
@@ -27,7 +26,8 @@ interface EntryData {
 @Component({
   selector: 'app-admindash',
   templateUrl: './admindash.component.html',
-  styleUrls: ['./admindash.component.css']
+  styleUrls: ['./admindash.component.css'],
+  providers: [MessageService]
 })
 export class AdmindashComponent implements OnInit {
   details = [];
@@ -60,7 +60,10 @@ export class AdmindashComponent implements OnInit {
     amount: 0
   };
 
-  constructor(private dbService: DbService) { }
+  constructor(
+    private dbService: DbService,
+    private messageService: MessageService
+    ) { }
 
   ngOnInit(): void {
     this.dbService.getData().subscribe(data=>{
@@ -89,8 +92,8 @@ export class AdmindashComponent implements OnInit {
         else item.isViewed = 'Yes';
         if(item.isAssigned == false){ item.isAssigned = 'No' }
         else item.isAssigned = 'Yes';
-        if(item.assignedEmp == ''){ item.assignedEmp = 'Not assigned' }
-        else item.assignedEmp = 'Assigned';
+        if(item.assignedEmp == '' || item.assignedEmp == null){ item.assignedEmp = 'Not assigned' }
+        // else item.assignedEmp = 'Assigned';
         if(item.isCompleted == false){ item.isCompleted = 'No' }
         else item.isCompleted = 'Yes';
         if(item.payMode == ''){ item.payMode = 'Not set' }
@@ -102,8 +105,12 @@ export class AdmindashComponent implements OnInit {
       for(let i=0; i<this.details.length; i++){
         if(this.details[i].isViewed){
           this.recent.push(this.details[i]);
-        } else {
+        } else
+        if(this.details[i].isAssigned) {
           this.inProgress.push(this.details[i]);
+        }
+        else {
+          this.completed.push(this.details[i]);
         }
       }
     })
@@ -112,22 +119,10 @@ export class AdmindashComponent implements OnInit {
         this.employees = data;
       }
     );
-    // this.employees = [{
-    //   label: 'Employees',
-    //   items: [
-    //       {label: 'Chandler', icon: 'pi pi-fw pi-tag', command: (event)=>{
-    //         console.log(event.originalEvent.type);
-    //       }},
-    //       {label: 'Joey', icon: 'pi pi-fw pi-user'},
-    //       {label: 'Ross', icon: 'pi pi-fw pi-tag'},
-    //       {label: 'Monica', icon: 'pi pi-fw pi-tag'},
-    //       {label: 'Pheobe', icon: 'pi pi-fw pi-tag'},
-    //       {label: 'Rachel', icon: 'pi pi-fw pi-tag'}
-    //   ]
-    // }];
   }
 
   showModalDialog(entryid: string){
+    let empId;
     this.empFiltered = [{
       label: 'Employees',
       items: []
@@ -153,9 +148,36 @@ export class AdmindashComponent implements OnInit {
     for(let emp of this.employees) {
       if(vehMode == emp.vehMode) {
         this.empFiltered[0].items.push(
-          {label: emp.firstName, icon: 'pi pi-fw pi-user' }
+          {label: emp.firstName, icon: 'pi pi-fw pi-user', command:
+            (event)=>{
+              this.assignEmpToEntry(entryid, emp.empId);
+            }
+          }
         );
         }
+    }
+  }
+
+  assignEmpToEntry(entryId, empId) {
+    for(let entry of this.details) {
+      if(entry.uId === entryId) {
+        entry.assignedEmp = empId;
+        let ids = {
+          dataId: entryId,
+          employeeId: empId
+        }
+        this.dbService.updateData(ids).subscribe(
+          data => {
+            console.log("Data",data);
+            this.messageService.add({severity:'success', summary: 'Success', detail: 'Employee assigned successfully'});
+          },
+          error => {
+            console.log(error);
+            this.messageService.add({severity:'error', summary: 'Error', detail: 'Error occured while asigning employee'});
+          }
+        );
+        break;
+      }
     }
   }
 

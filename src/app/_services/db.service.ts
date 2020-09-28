@@ -7,15 +7,20 @@ import { HttpClient } from '@angular/common/http';
 export class DbService {
 
   constructor(private http: HttpClient) { }
+
   //Submit entries//
   userData(user){
-    return this.http.post("http://localhost:3000/register", user)
-    .subscribe(data=>console.log());
+    return this.http.post("http://localhost:3000/register", user);
   }
 
   //Get all entries//
   getData(){
     return this.http.get("http://localhost:3000/get");
+  }
+
+  //Update entry
+  updateData(entryId){
+    return this.http.post("http://localhost:3000/edit", entryId);
   }
 
   //Get total emp count//
@@ -31,13 +36,11 @@ export class DbService {
   //Add employee//
   addEmployee(employee){
     return this.http.post("http://localhost:3000/addemp", employee);
-    // .subscribe(data=>console.log());
   }
 
   //Edit employee//
   editEmployee(empWithId){
     return this.http.post("http://localhost:3000/editemp", empWithId)
-    // .subscribe(data=>{console.log(data)});
   }
 
   //Delete employee//

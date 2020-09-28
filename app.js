@@ -31,7 +31,7 @@ app.get("/empcount",(req,res)=>{
   })
 })
 
-//----------GET-ENTRIES-FROM-DB----------//
+//----------GET-EMPLOYEES-FROM-DB----------//
 app.get("/getallemps",(req,res)=>{
   res.header("Access-Control-Allow-Origin","*");
   res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH");
@@ -67,6 +67,25 @@ app.post("/register", (req,res)=>{
   }
   var userData = new CoreData(userData);
   userData.save();
+  res.send();
+})
+
+//----------UPDATE-ENTRY-FOR-ADMIN----------//
+app.post("/edit", (req,res)=>{
+  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH");
+  CoreData.findOne({"uId":req.body.dataId}, (err, foundObj) => {
+    if(err){
+      console.log(err);
+    } else {
+      foundObj.assignedEmp = req.body.employeeId;
+      if(!foundObj.isAssigned) {
+        foundObj.isAssigned = !foundObj.isAssigned;
+      }
+      foundObj.save();
+    }
+    res.send();
+  })
 })
 
 //----------ADD-EMPLOYEE-FOR-ADMIN----------//
@@ -83,10 +102,12 @@ app.post("/addemp", (req,res) => {
     address2: req.body.address2,
     vehMode: req.body.vehMode,
     userName: req.body.userName,
-    password: req.body.password
+    password: req.body.password,
+    role:'Employee'
   }
   var empData = EmployeeData(empData);
   empData.save();
+  res.send();
 })
 
 //----------EDIT-EMPLOYEE----------//
@@ -94,9 +115,7 @@ app.post("/editemp", (req, res) => {
   res.header("Access-Control-Allow-Origin","*");
   res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH");
   var id = req.body.id;
-  console.log(req.body);
   EmployeeData.findOne({"empId": id}, (err, foundObj) => {
-    console.log(foundObj);
     if(err){
       console.log(err);
     } else {
@@ -108,7 +127,6 @@ app.post("/editemp", (req, res) => {
       foundObj.vehMode = req.body.detail.vehMode;
       foundObj.email = req.body.detail.email;
       foundObj.save();
-      console.log(foundObj);
     }
   })
 })

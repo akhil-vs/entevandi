@@ -7,6 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DropdownModule } from 'primeng/dropdown';
 import { TabViewModule } from 'primeng/tabview';
 
+import { DbService } from './_services/db.service';
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers';
 

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DbService } from '../_services/db.service';
+import { MessageService } from 'primeng/api';
 import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-userdash',
   templateUrl: './userdash.component.html',
-  styleUrls: ['./userdash.component.css']
+  styleUrls: ['./userdash.component.css'],
+  providers: [MessageService]
 })
 export class UserdashComponent implements OnInit {
   test = (uuid.v4().split('-'));
@@ -20,7 +22,11 @@ export class UserdashComponent implements OnInit {
   selectedVeh: any;
   selectedSer: any;
 
-  constructor(private formBuilder: FormBuilder, public dbService: DbService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    public dbService: DbService,
+    private messageService: MessageService,
+    ) {
     this.vehTypes = [
       {name: '2 Wheeler', code: '2w', icon: 'fa fa-motorcycle'},
       {name: '4 Wheeler', code: '4w', icon: 'fa fa-car'}
@@ -83,14 +89,28 @@ export class UserdashComponent implements OnInit {
     this.userDataForm.value['vehicle'] = this.selectedVeh.code;
     this.userDataForm.value['jobMode'] = this.selectedSer.code;
 
-    // display form values on success
-    this.dbService.userData(this.userDataForm.value);
-    alert("Success, data has been submitted");
-    location.reload();
+    // posting on success
+    this.dbService.userData(this.userDataForm.value).subscribe(
+      next => {
+        this.messageService.add({severity:'success', summary: 'Success', detail: 'Entry added successfully'});
+        this.onReset();
+      },
+      error => {
+        this.messageService.add({severity:'error', summary: 'Error', detail: 'An error occured'});
+      }
+    );
   }
 
   onReset() {
     this.submitted = false;
     this.userDataForm.reset();
+    this.selectedSer = '';
+    this.selectedVeh = '';
   }
+
+  //Closing the toast//
+  onReject() {
+    this.messageService.clear();
+  }
+
 }

@@ -3,17 +3,34 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
+import { DbService } from '../_services/db.service';
+import { Router } from '@angular/router';
+
 import { User, Role } from '@app/_models';
 
 const users: User[] = [
     { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: 'User', role: Role.Admin },
     { id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User },
-    { id: 3, username: 'employee', password: 'employee', firstName: 'Employee', lastName: 'User', role: Role.Employee }
+    { id: 3, username: 'Graham1500', password: 'Graham1500', firstName: 'Leanne', lastName: 'Graham', role: Role.Employee },
+    { id: 4, username: 'Howell1501', password: 'Howell1501', firstName: 'Ervin', lastName: 'Howell', role: Role.Employee },
+    { id: 5, username: 'Bauch1502', password: 'Bauch1502', firstName: 'Clementine', lastName: 'Bauch', role: Role.Employee },
+    { id: 6, username: 'Lebsack1503', password: 'Lebsack1503', firstName: 'Patricia', lastName: 'Lebsack', role: Role.Employee },
+    { id: 7, username: 'Dietrich1504', password: 'Dietrich1504', firstName: 'Chelsey', lastName: 'Dietrich', role: Role.Employee },
+    { id: 8, username: 'Schulist1505', password: 'Schulist1505', firstName: 'Dennis', lastName: 'Schulist', role: Role.Employee },
+    { id: 9, username: 'Weissnat1506', password: 'Weissnat1506', firstName: 'Kurtis', lastName: 'Weissnat', role: Role.Employee },
+    { id: 10, username: 'Runolfsdottir1507', password: 'Runolfsdottir1507', firstName: 'Nicholas', lastName: 'Runolfsdottir', role: Role.Employee },
+    { id: 11, username: 'Reichert1508', password: 'Reichert1508', firstName: 'Glenna', lastName: 'Reichert', role: Role.Employee },
+    { id: 12, username: 'DuBuque1509', password: 'DuBuque1509', firstName: 'Clementina', lastName: 'DuBuque', role: Role.Employee }
 ];
+
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+
+
         const { url, method, headers, body } = request;
 
         // wrap in delayed observable to simulate server api call

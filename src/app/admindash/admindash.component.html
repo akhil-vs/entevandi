@@ -52,10 +52,10 @@
   </p-tabPanel>
 </p-tabView>
 
-<p-dialog header="Details" [(visible)]="display" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="1"
+<p-dialog header="Details" [(visible)]="display" [modal]="true" [style]="{width: '100vw'}" [baseZIndex]="1"
   [draggable]="false" [resizable]="false">
-  <p-accordion>
-    <p-accordionTab header="Job Details" [selected]="true" id="accord">
+  <p-panel header = 'Job Ticket Info'>
+    <!-- <p-accordionTab header="Job Details" [selected]="true" id="accord"> -->
       <p style="text-align: center;">Date and Time of order: <strong>{{selectedUserData.date}} {{selectedUserData.time}}</strong></p>
       <div style="text-align: center;">Vehicle Type: <strong>{{selectedUserData.vehicle}}</strong>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Job Type: <strong>{{selectedUserData.jobMode}}</strong>
@@ -63,27 +63,23 @@
           Pick and Drop
         </span>
       </div>
-    </p-accordionTab>
-    <p-accordionTab header="Customer Details">
+    </p-panel>
+    <p-panel header="Customer Info">
       <div style="width: 100%; border: 1px solid rgb(230, 231, 231); border-radius: 5px; padding: 5px; margin-bottom: 2px;">
-        <i class="pi pi-id-card mr-1"></i><strong>{{selectedUserData.firstName}} {{selectedUserData.lastName}}</strong><br/>
-        <i class="pi pi-home mr-1"></i><strong>{{selectedUserData.address1}} {{selectedUserData.address2}}</strong><br/>
         <div class="row">
-          <div class="col-4"><i class="pi pi-mobile mr-1"></i><strong>{{selectedUserData.mobile}}</strong></div>
-          <div class="col"><i class="pi pi-envelope mr-1"></i><strong>{{selectedUserData.email}}</strong></div>
+          <div class="col-lg-4 col-md-6 col-sm-12"><i class="pi pi-id-card mr-1 d-md-inline d-sm-none"></i><strong>{{selectedUserData.firstName}} {{selectedUserData.lastName}}</strong><br/></div>
+          <div class="col-lg-4 col-md-6 col-sm-12"><i class="pi pi-home mr-1 d-md-inline d-sm-none"></i><strong>{{selectedUserData.address1}} {{selectedUserData.address2}}</strong><br/></div>
+          <div class="col-lg-4 col-md-6 col-sm-12"><i class="pi pi-mobile mr-1 d-md-inline d-sm-none"></i><strong>{{selectedUserData.mobile}}</strong></div>
+          <div class="col-lg-4 col-md-6 col-sm-12"><i class="pi pi-envelope mr-1 d-md-inline d-sm-none"></i><strong>{{selectedUserData.email}}</strong></div>
         </div>
       </div>
       <div style="width: 100%; border: 1px solid rgb(230, 231, 231); border-radius: 5px; padding: 5px;">
         <div class="row">
-          <div class="col">Seen by Admin: <strong>{{selectedUserData.isViewed}}</strong></div>
-          <div class="col">Payment Mode: <strong>{{selectedUserData.payMode}}</strong></div>
-        </div>
-        <div class="row">
-          <div class="col">Assigned to Employee: <strong>{{selectedUserData.isAssigned}}</strong></div>
-          <div class="col">Amount paid: <strong>{{selectedUserData.amount}}</strong></div>
+          <div class="col-lg-4 col-md-6 col-sm-12">Payment Mode: <strong>{{selectedUserData.payMode}}</strong></div>
+          <div class="col-lg-4 col-md-6 col-sm-12">Amount paid: <strong>{{selectedUserData.amount}}</strong></div>
         </div>
       </div>
-    </p-accordionTab>
+    </p-panel>
     <br/>
     <div style="float: right">
       <!-- <p-button icon="pi pi-user-plus" (click)="op1.toggle($event)" label="Assign Employee" class="p-button-text"></p-button> -->
@@ -91,7 +87,7 @@
       &nbsp;
       <p-button icon="pi pi-check" (click)="display=false" label="Mark Complete"></p-button>
     </div>
-  </p-accordion>
+  <!-- </p-panel> -->
 </p-dialog>
 
 <p-menu #menu [popup]="true" [model]="empFiltered"></p-menu>
