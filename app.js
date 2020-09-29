@@ -4,6 +4,7 @@ const bodyparser = require('body-parser');
 const CoreData = require('./CoreData');
 const EmployeeData = require('./EmployeeData');
 const cors = require('cors');
+const { HttpResponse } = require('@angular/common/http');
 mongoose.connect('mongodb://localhost:27017/UserDB');
 var app =new express();
 
@@ -70,7 +71,7 @@ app.post("/register", (req,res)=>{
   res.send();
 })
 
-//----------UPDATE-ENTRY-FOR-ADMIN----------//
+//----------UPDATE-ENTRY----------//
 app.post("/edit", (req,res)=>{
   res.header("Access-Control-Allow-Origin","*");
   res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH");
@@ -84,11 +85,11 @@ app.post("/edit", (req,res)=>{
       }
       foundObj.save();
     }
-    res.send();
   })
+  res.send();
 })
 
-//----------ADD-EMPLOYEE-FOR-ADMIN----------//
+//----------ADD-EMPLOYEE----------//
 app.post("/addemp", (req,res) => {
   res.header("Access-Control-Allow-Origin","*");
   res.header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH");

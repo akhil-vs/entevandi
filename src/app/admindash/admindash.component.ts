@@ -168,17 +168,23 @@ export class AdmindashComponent implements OnInit {
         }
         this.dbService.updateData(ids).subscribe(
           data => {
-            console.log("Data",data);
             this.messageService.add({severity:'success', summary: 'Success', detail: 'Employee assigned successfully'});
           },
           error => {
-            console.log(error);
             this.messageService.add({severity:'error', summary: 'Error', detail: 'Error occured while asigning employee'});
           }
         );
         break;
       }
     }
+  }
+
+  onConfirm() {
+    this.messageService.clear;
+  }
+
+  onReject() {
+      this.messageService.clear;
   }
 
 }
